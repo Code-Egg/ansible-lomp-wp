@@ -1,0 +1,17 @@
+---
+#System Settings
+php_modules: [ 'lsphp74-curl', 'lsphp74-imagick', 'lsphp74-intl', 'lsphp74-opcache', 'lsphp74-redis', 'lsphp74-memcached', 'lsphp74-tidy' ]
+
+owner: www-data
+group: www-data
+
+#MySQL Settings
+mysql_root_password: "mysql_root_password"
+mysql_db: "wordpress"
+mysql_user: "egguser"
+mysql_password: "password"
+
+#HTTP Settings
+http_host: "your_domain"
+http_port: "80"
+https_port: "443"
