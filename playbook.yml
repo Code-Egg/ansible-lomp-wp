@@ -1,5 +1,6 @@
 ---
-- hosts: all
+- hosts: server
+  strategy: linear
   become: true
   vars_files:
     - vars/default.yml
@@ -101,18 +102,18 @@
       tags: [ mysql ]
 
   # UFW Configuration
-    - name: "UFW - Allow HTTP on port {{ http_port }}"
-      ufw:
-        rule: allow
-        port: "{{ http_port }}"
-        proto: tcp
-      tags: [ system ]
-    - name: "UFW - Allow HTTPS on port {{ https_port }}"
-      ufw:
-        rule: allow
-        port: "{{ https_port }}"
-        proto: tcp
-      tags: [ system ]
+#    - name: "UFW - Allow HTTP on port {{ http_port }}"
+#      ufw:
+#        rule: allow
+#        port: "{{ http_port }}"
+#        proto: tcp
+#      tags: [ system ]
+#    - name: "UFW - Allow HTTPS on port {{ https_port }}"
+#      ufw:
+#        rule: allow
+#        port: "{{ https_port }}"
+#        proto: tcp
+#      tags: [ system ]
 
   # WordPress Configuration
     - name: Download and unpack latest WordPress
