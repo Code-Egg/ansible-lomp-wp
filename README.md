@@ -1,29 +1,59 @@
-# ansible-lomp-wp
+# WordPress on Ubuntu 20.04 LOMP
+This playbook will install a WordPress website on top of a LOMP environment (Linux, OpenLiteSpeed, MySQL and PHP) on an Ubuntu machine. A virtualhost will be created with the options specified in the vars/default.yml variable file.
 
-```
-ansible-playbook -l example.com playbook.yml
-```
-# Ansible Playbook for setting up OpenLiteSpeed WordPress
+## Settings
+- `php_modules`:  An array containing PHP extensions that should be installed to support your WordPress setup. You don't need to change this variable, but you might want to include new extensions to the list if your specific setup requires it.
+- `mysql_root_password`: The desired password for the **root** MySQL account.
+- `mysql_db`: The name of the MySQL database that should be created for WordPress.
+- `mysql_user`: The name of the MySQL user that should be created for WordPress.
+- `mysql_password`: The password for the new MySQL user.
+- `http_host`: Your domain name.
+- `http_conf`: The name of the configuration file that will be created within OpenLiteSpeed.
+- `http_port`: HTTP port for this virtual host, where `80` is the default. 
+- `https_port`: HTTPS port for this virtual host, where `443` is the default. 
 
-## How to use
+## Running this Playbook
+### Install Ansible
 1. Install ansible on center server
 ```
 apt update && apt install ansible -y
 ```
 2. Add SSH key to the client server so center server can ssh in without password
-3. Download the git repo
+### Obtain the playbook
+Download the git repo
 ```
 git clone https://github.com/Code-Egg/ansible-lomp-wp.git
+cd ansible-lomp-wp
 ```
-4. Update `example.com` from inventory to your client server's domain/IP
+### Customize Options
+Update `example.com` from inventory to your client server's domain/IP
 ```
-cd ansible-lomp-wp; vi inventory
+vim inventory
 ```
-5. Update SQL, Domain, Port from vars/default.yml
+
+Update SQL, Domain, Port from vars/default.yml
 ```
-vi vars/default.yml
+vim vars/default.yml
 ```
-6. Run ansible playbook
+```yml
+---
+#System Settings
+php_modules: [ 'lsphp74-curl', 'lsphp74-imagick', 'lsphp74-intl', 'lsphp74-opcache', 'lsphp74-redis', 'lsphp74-memcached', 'lsphp74-tidy' ]
+owner: www-data
+group: www-data
+
+#MySQL Settings
+mysql_root_password: "mysql_root_password"
+mysql_db: "wordpress"
+mysql_user: "egguser"
+mysql_password: "password"
+
+#HTTP Settings
+http_host: "your_domain"
+http_port: "80"
+https_port: "443"
 ```
+### Run ansible playbook
+```command
 ansible-playbook playbook.yml
 ```
