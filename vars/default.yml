@@ -1,7 +1,7 @@
 ---
 #System Settings
-php_modules: [ 'lsphp74-curl', 'lsphp74-imagick', 'lsphp74-intl', 'lsphp74-opcache', 'lsphp74-redis', 'lsphp74-memcached', 'lsphp74-tidy' ]
-
+php_version: "74"
+php_opt_modules: [ 'lsphp{{ php_version }}-curl', 'lsphp{{ php_version }}-imagick', 'lsphp{{ php_version }}-intl', 'lsphp{{ php_version }}-opcache', 'lsphp{{ php_version }}-memcached', 'lsphp{{ php_version }}-tidy' ]
 owner: www-data
 group: www-data
 
@@ -15,3 +15,4 @@ mysql_password: "password"
 http_host: "your_domain"
 http_port: "80"
 https_port: "443"
+doc_root: "/var/www/{{ http_host }}"

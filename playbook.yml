@@ -2,34 +2,21 @@
 - hosts: server
   strategy: linear
   become: true
+  roles:
+  - { role: openlitespeed, become: yes }
+  - { role: php, become: yes }    
+  - { role: mysql, become: yes }
   vars_files:
     - vars/default.yml
 
   tasks:
-    - name: Install prerequisites
-      apt: name=aptitude update_cache=yes state=latest force_apt_get=yes
-      tags: [ system ]
-
-    - name: Install LiteSpeed repository
-      shell: wget -O - http://rpms.litespeedtech.com/debian/enable_lst_debian_repo.sh | bash
-
-    - name: Install LOMP Packages
-      apt: name={{ item }} update_cache=yes state=latest
-      loop: [ 'openlitespeed', 'mysql-server', 'python3-pymysql', 'lsphp74', 'lsphp74-mysql', 'lsphp74-common', 'lsphp74-json' ]
-      tags: [ system ]
-
-    - name: Install PHP Extensions
-      apt: name={{ item }} update_cache=yes state=latest
-      loop: "{{ php_modules }}"
-      tags: [ system ]
-
   # OpenLiteSpeed Configuration
     - name: Create document root
       file:
         path: "/var/www/{{ http_host }}"
         state: directory
-        owner: "www-data"
-        group: "www-data"
+        owner: {{ owner }}
+        group: {{ group }}
         mode: '0755'
       tags: [ openlitespeed ]
 
@@ -58,61 +45,18 @@
       notify: Restart openlitespeed
       tags: [ openlitespeed ]
 
-  # MySQL Configuration
-    - name: Set the root password
-      mysql_user:
-        name: root
-        password: "{{ mysql_root_password }}"
-        login_unix_socket: /var/run/mysqld/mysqld.sock
-      tags: [ mysql, mysql-root ]
-
-    - name: Remove all anonymous user accounts
-      mysql_user:
-        name: ''
-        host_all: yes
-        state: absent
-        login_user: root
-        login_password: "{{ mysql_root_password }}"
-      tags: [ mysql ]
-
-    - name: Remove the MySQL test database
-      mysql_db:
-        name: test
-        state: absent
-        login_user: root
-        login_password: "{{ mysql_root_password }}"
-      tags: [ mysql ]
-
-    - name: Creates database for WordPress
-      mysql_db:
-        name: "{{ mysql_db }}"
-        state: present
-        login_user: root
-        login_password: "{{ mysql_root_password }}"
-      tags: [ mysql ]
-
-    - name: Create MySQL user for WordPress
-      mysql_user:
-        name: "{{ mysql_user }}"
-        password: "{{ mysql_password }}"
-        priv: "{{ mysql_db }}.*:ALL"
-        state: present
-        login_user: root
-        login_password: "{{ mysql_root_password }}"
-      tags: [ mysql ]
-
   # WordPress Configuration
     - name: Download and unpack latest WordPress
       unarchive:
         src: https://wordpress.org/latest.tar.gz
-        dest: "/var/www/{{ http_host }}"
+        dest: "{{ doc_root }}"
         remote_src: yes
-        creates: "/var/www/{{ http_host }}/wordpress"
+        creates: "{{ doc_root }}/wordpress"
       tags: [ wordpress ]
 
     - name: Set ownership
       file:
-        path: "/var/www/{{ http_host }}"
+        path: "{{ doc_root }}"
         state: directory
         recurse: yes
         owner: www-data
@@ -120,17 +64,17 @@
       tags: [ wordpress ]
 
     - name: Set permissions for directories
-      shell: "/usr/bin/find /var/www/{{ http_host }}/wordpress/ -type d -exec chmod 750 {} \\;"
+      shell: "/usr/bin/find {{ doc_root }}/wordpress/ -type d -exec chmod 750 {} \\;"
       tags: [ wordpress ]
 
     - name: Set permissions for files
-      shell: "/usr/bin/find /var/www/{{ http_host }}/wordpress/ -type f -exec chmod 640 {} \\;"
+      shell: "/usr/bin/find {{ doc_root }}/wordpress/ -type f -exec chmod 640 {} \\;"
       tags: [ wordpress ]
 
     - name: Set up wp-config
       template:
         src: "files/wp-config.php.j2"
-        dest: "/var/www/{{ http_host }}/wordpress/wp-config.php"
+        dest: "{{ doc_root }}/wordpress/wp-config.php"
       tags: [ wordpress ]
 
   handlers:

@@ -1,0 +1,7 @@
+---
+- name: Install LiteSpeed repository
+  shell: wget -O - http://rpms.litespeedtech.com/debian/enable_lst_debian_repo.sh | bash
+
+- name: Install OpenLiteSpeed Package
+  raw: test -e /usr/local/lsws/bin/openlitespeed || apt update && apt install -y openlitespeed
+  tags: [ system ]

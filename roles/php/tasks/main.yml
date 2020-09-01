@@ -1,0 +1,13 @@
+---
+- name: Install LiteSpeed repository
+  shell: wget -O - http://rpms.litespeedtech.com/debian/enable_lst_debian_repo.sh | bash
+
+- name: Install PHP Packages
+  apt: name={{ item }} update_cache=yes state=latest
+  loop: [ 'lsphp{{ php_version }}', 'lsphp{{ php_version }}-mysql', 'lsphp{{ php_version }}-common', 'lsphp{{ php_version }}-json' ]
+  tags: [ system ]
+
+- name: Install PHP Extensions
+  apt: name={{ item }} update_cache=yes state=latest
+  loop: "{{ php_opt_modules }}"
+  tags: [ system ]
