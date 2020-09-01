@@ -4,7 +4,7 @@
   become: true
   roles:
   - { role: openlitespeed, become: yes }
-  - { role: php, become: yes }    
+  - { role: php, become: yes }
   - { role: mysql, become: yes }
   - { role: wordpress, become: yes }
   vars_files:

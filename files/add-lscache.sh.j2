@@ -1,5 +1,4 @@
 #!/bin/bash
-PLUGINLIST="litespeed-cache.zip"
 DOCHM="{{ doc_root }}"
 
 get_theme_name(){
@@ -8,20 +7,6 @@ get_theme_name(){
     if [ ${?} = 0 ]; then
         THEME="${THEME_NAME}"
     fi
-}
-
-install_wp_plugin(){
-    echoG 'Setting WordPress'
-    for PLUGIN in ${PLUGINLIST}; do
-        echoG "Install ${PLUGIN}"
-        wget -q -P ${DOCHM}/wp-content/plugins/ https://downloads.wordpress.org/plugin/${PLUGIN}
-        if [ $? = 0 ]; then
-            unzip -qq -o ${DOCHM}/wp-content/plugins/${PLUGIN} -d ${DOCHM}/wp-content/plugins/
-        else
-            echoR "${PLUGINLIST} FAILED to download"
-        fi
-    done
-    rm -f ${DOCHM}/wp-content/plugins/*.zip
 }
 
 set_lscache(){ 
@@ -42,3 +27,6 @@ q
 END
     fi
 }
+
+get_theme_name
+set_lscache
