@@ -13,6 +13,7 @@
 
 - name: Install OpenLiteSpeed Package
   raw: test -e /usr/local/lsws/bin/openlitespeed || apt update && apt install -y openlitespeed
+  changed_when: false
   tags: [ system ]
 
 - name: Set up openlitespeed ServerConf
@@ -21,7 +22,7 @@
     dest: "/usr/local/lsws/conf/httpd_config.conf"
     force: yes
     owner: "lsadm"
-    mode: 750
+    mode: '0750'
   tags: [ openlitespeed ]
 
 - name: Set up openlitespeed VirtualHost
@@ -30,13 +31,13 @@
     dest: "/usr/local/lsws/conf/vhosts/Example/vhconf.conf"
     force: yes
     owner: "lsadm"
-    mode: 750
+    mode: '0750'
   tags: [ openlitespeed ]
 
 - name: reinstall openlitespeed
   shell: |
     DEBIAN_FRONTEND=noninteractive apt-get -o Dpkg::Options::='--force-confdef' \
-    -o Dpkg::Options::='--force-confold' -y install --reinstall openlitespeed; rm -rf /tmp/lshttpd/
+    -o Dpkg::Options::='--force-confold' -y install --reinstall openlitespeed
   notify: Restart lsws
   changed_when: false
-  tags: [ openlitespeed ]  
+  tags: [ openlitespeed ]

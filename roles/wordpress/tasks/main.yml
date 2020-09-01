@@ -10,6 +10,7 @@
     src: https://wordpress.org/latest.tar.gz
     dest: "{{ doc_root }}"
     remote_src: yes
+    mode: 'preserve'
   when: doc_folder.stat.exists
   tags: [ wordpress ]
 
@@ -23,6 +24,7 @@
     src: https://downloads.wordpress.org/plugin/litespeed-cache.zip
     dest: "{{ doc_root }}/wp-content/plugins/"
     remote_src: yes
+    mode: 'preserve'
   when: doc_folder.stat.exists
   tags: [ wordpress ]
 
@@ -30,6 +32,7 @@
   template:
     src: "files/wp-config.php.j2"
     dest: "{{ doc_root }}/wp-config.php"
+    mode: '0640'
   tags: [ wordpress ]
 
 - name: Install ed
@@ -41,7 +44,7 @@
   template:
     src: "files/add-lscache.sh.j2"
     dest: "{{ doc_root }}/add-lscache.sh"
-    mode: 750
+    mode: '0750'
   tags: [ wordpress ]
 
 - name: Execute lscache script
@@ -56,6 +59,7 @@
     recurse: yes
     owner: "{{ owner }}"
     group: "{{ group }}"
+    mode: 'preserve'
   tags: [ wordpress ]
 
 - name: Set permissions for directories
