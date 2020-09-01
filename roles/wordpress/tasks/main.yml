@@ -1,0 +1,31 @@
+---
+- name: Download and unpack latest WordPress
+  unarchive:
+    src: https://wordpress.org/latest.tar.gz
+    dest: "{{ doc_root }}"
+    remote_src: yes
+    creates: "{{ doc_root }}/wordpress"
+  tags: [ wordpress ]
+
+- name: Set ownership
+  file:
+    path: "{{ doc_root }}"
+    state: directory
+    recurse: yes
+    owner: "{{ owner }}"
+    group: "{{ group }}"
+  tags: [ wordpress ]
+
+- name: Set permissions for directories
+  shell: "/usr/bin/find {{ doc_root }}/wordpress/ -type d -exec chmod 750 {} \\;"
+  tags: [ wordpress ]
+
+- name: Set permissions for files
+  shell: "/usr/bin/find {{ doc_root }}/wordpress/ -type f -exec chmod 640 {} \\;"
+  tags: [ wordpress ]
+
+- name: Set up wp-config
+  template:
+    src: "files/wp-config.php.j2"
+    dest: "{{ doc_root }}/wordpress/wp-config.php"
+  tags: [ wordpress ]

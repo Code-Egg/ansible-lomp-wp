@@ -217,8 +217,8 @@ virtualhost Example {
 listener HTTPS {
   address                 *:{{ https_port }}
   secure                  1
-  keyFile                 /usr/local/lsws/admin/conf/webadmin.key
-  certFile                /usr/local/lsws/admin/conf/webadmin.crt
+  keyFile                 {{ ssl_key }}
+  certFile                {{ ssl_crt }}
   map                     Example *
 }
 

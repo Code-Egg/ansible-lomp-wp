@@ -1,7 +1,39 @@
 ---
+- name: Create document root
+  file:
+    path: "{{ doc_root }}"
+    state: directory
+    owner: "{{ owner }}"
+    group: "{{ group }}"
+    mode: '0755'
+  tags: [ openlitespeed ]
 - name: Install LiteSpeed repository
   shell: wget -O - http://rpms.litespeedtech.com/debian/enable_lst_debian_repo.sh | bash
 
 - name: Install OpenLiteSpeed Package
   raw: test -e /usr/local/lsws/bin/openlitespeed || apt update && apt install -y openlitespeed
   tags: [ system ]
+
+- name: Set up openlitespeed ServerConf
+  template:
+    src: "files/httpd-config.conf.j2"
+    dest: "/usr/local/lsws/conf/httpd_config.conf"
+    force: yes
+    owner: "lsadm"
+  tags: [ openlitespeed ]
+
+- name: Set up openlitespeed VirtualHost
+  template:
+    src: "files/vhconf.conf.j2"
+    dest: "/usr/local/lsws/conf/vhosts/Example/vhconf.conf"
+    force: yes
+    owner: "lsadm"
+  tags: [ openlitespeed ]
+
+- name: reinstall openlitespeed
+  shell: |
+    DEBIAN_FRONTEND=noninteractive apt-get -o Dpkg::Options::='--force-confdef' \
+    -o Dpkg::Options::='--force-confold' -y install --reinstall openlitespeed
+    rm -rf /tmp/lshttpd/
+  notify: Restart lsws
+  tags: [ openlitespeed ]  
