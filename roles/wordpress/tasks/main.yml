@@ -7,6 +7,12 @@
     creates: "{{ doc_root }}/wordpress"
   tags: [ wordpress ]
 
+- name: Set up wp-config
+  template:
+    src: "files/wp-config.php.j2"
+    dest: "{{ doc_root }}/wordpress/wp-config.php"
+  tags: [ wordpress ]
+
 - name: Set ownership
   file:
     path: "{{ doc_root }}"
@@ -22,10 +28,4 @@
 
 - name: Set permissions for files
   shell: "/usr/bin/find {{ doc_root }}/wordpress/ -type f -exec chmod 640 {} \\;"
-  tags: [ wordpress ]
-
-- name: Set up wp-config
-  template:
-    src: "files/wp-config.php.j2"
-    dest: "{{ doc_root }}/wordpress/wp-config.php"
   tags: [ wordpress ]
