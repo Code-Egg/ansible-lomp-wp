@@ -9,6 +9,7 @@
   tags: [ openlitespeed ]
 - name: Install LiteSpeed repository
   shell: wget -O - http://rpms.litespeedtech.com/debian/enable_lst_debian_repo.sh | bash
+  changed_when: false
 
 - name: Install OpenLiteSpeed Package
   raw: test -e /usr/local/lsws/bin/openlitespeed || apt update && apt install -y openlitespeed
@@ -20,6 +21,7 @@
     dest: "/usr/local/lsws/conf/httpd_config.conf"
     force: yes
     owner: "lsadm"
+    mode: 750
   tags: [ openlitespeed ]
 
 - name: Set up openlitespeed VirtualHost
@@ -28,12 +30,13 @@
     dest: "/usr/local/lsws/conf/vhosts/Example/vhconf.conf"
     force: yes
     owner: "lsadm"
+    mode: 750
   tags: [ openlitespeed ]
 
 - name: reinstall openlitespeed
   shell: |
     DEBIAN_FRONTEND=noninteractive apt-get -o Dpkg::Options::='--force-confdef' \
-    -o Dpkg::Options::='--force-confold' -y install --reinstall openlitespeed
-    rm -rf /tmp/lshttpd/
+    -o Dpkg::Options::='--force-confold' -y install --reinstall openlitespeed; rm -rf /tmp/lshttpd/
   notify: Restart lsws
+  changed_when: false
   tags: [ openlitespeed ]  
