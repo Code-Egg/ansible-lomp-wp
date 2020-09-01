@@ -1,0 +1,6 @@
+---
+- name: Install ed
+  raw: test -e /bin/ed || apt update && apt install -y ed
+
+- name: Install unzip
+  raw: test -e /usr/bin/unzip || apt update && apt install -y unzip

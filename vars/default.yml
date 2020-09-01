@@ -19,7 +19,7 @@ mysql_user: "egguser"
 mysql_password: "password"
 
 #HTTP Settings
-http_host: "your_domain"
+http_host: "example.com"
 http_port: "80"
 https_port: "443"
 doc_root: "/var/www/{{ http_host }}"

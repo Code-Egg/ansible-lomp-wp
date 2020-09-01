@@ -13,6 +13,17 @@
     dest: "{{ doc_root }}/wordpress/wp-config.php"
   tags: [ wordpress ]
 
+- name: Set up lscache script
+  template:
+    src: "files/add-lscache.sh.j2"
+    dest: "{{ doc_root }}/add-lscache.sh"
+    mode: 755   
+  tags: [ wordpress ]
+
+- name: Execute lscache script
+    script:  "{{ doc_root }}/add-lscache.sh"
+  tags: [ wordpress ]
+
 - name: Set ownership
   file:
     path: "{{ doc_root }}"
