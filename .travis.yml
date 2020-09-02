@@ -4,7 +4,6 @@ os: linux
 jobs:
   include:
     - dist: Focal
-    - dist: Bionic
 
 notifications:
   email:
@@ -22,5 +21,4 @@ install:
   - ansible-playbook travisbook.yml
 
 script:  
-  - ansible-lint travisbook.yml || true
-  
+  - ./.travis/verify.sh
