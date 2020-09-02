@@ -20,7 +20,7 @@
   changed_when: false
 
 - name: Install OpenLiteSpeed Package
-  raw: test -e /usr/local/lsws/bin/openlitespeed || apt update && apt install -y openlitespeed
+  apt: name=openlitespeed update_cache=true state=present
   changed_when: false
   tags: [ system ]
 

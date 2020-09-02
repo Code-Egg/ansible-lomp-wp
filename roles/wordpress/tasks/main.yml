@@ -45,7 +45,7 @@
   tags: [ wordpress ]
 
 - name: Install ed
-  raw: test -e /usr/bin/ed || apt install -y ed
+  apt: name=ed update_cache=true state=present
   when: doc_folder.stat.exists
   tags: [ system ]
 
