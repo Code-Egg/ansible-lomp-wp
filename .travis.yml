@@ -1,7 +1,8 @@
-language: shell
+language: python
+python: "3.8"
 os: linux
 
-job:
+jobs:
   include:
     - Focal
     - Bionic
