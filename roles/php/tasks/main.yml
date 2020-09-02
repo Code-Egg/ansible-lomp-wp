@@ -13,7 +13,7 @@
   tags: [ system ]
 
 - name: Install PHP Extensions
-  apt: name=lsphp{{ php_version}}-{{ item }} update_cache=yes state=present
+  apt: name=lsphp{{ php_version }}-{{ item }} update_cache=yes state=present
   loop: "{{ php_opt_modules }}"
   tags: [ system ]
 
