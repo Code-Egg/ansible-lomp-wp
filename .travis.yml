@@ -2,7 +2,8 @@ language: shell
 os: linux
 
 dist:
-  - focal
+  - Focal
+  - Bionic
 
 notifications:
   email:
@@ -17,8 +18,8 @@ before_install:
   - cd ansible-lomp-wp
 
 install:
-  - ansible-playbook travis.yml
+  - ansible-playbook travisbook.yml
 
 script:  
-  - ansible-lint travis.yml
+  - ansible-lint travisbook.yml
   
