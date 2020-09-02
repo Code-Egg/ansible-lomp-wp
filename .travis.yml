@@ -3,8 +3,8 @@ os: linux
 
 jobs:
   include:
-    - Focal
-    - Bionic
+    - dist: Focal
+    - dist: Bionic
 
 notifications:
   email:
