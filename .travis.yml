@@ -10,6 +10,7 @@ notifications:
     on_failure: always
 
 before_install:
+  - sudo apt-get update
   - apt install ansible ansible-lint -y
   - ansible --version
   - git clone https://github.com/Code-Egg/ansible-lomp-wp.git
