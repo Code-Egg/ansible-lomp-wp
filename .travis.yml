@@ -1,9 +1,11 @@
-language: shell
+language: python
+python: 3.8
 os: linux
 
-dist:
-  - Focal
-  - Bionic
+job:
+  include:
+    - Focal
+    - Bionic
 
 notifications:
   email:
