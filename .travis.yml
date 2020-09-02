@@ -1,0 +1,23 @@
+language: shell
+os: linux
+
+dist:
+  - focal
+
+notifications:
+  email:
+    on_success: never
+    on_failure: always
+
+before_install:
+  - apt install ansible ansible-lint -y
+  - ansible --version
+  - git clone https://github.com/Code-Egg/ansible-lomp-wp.git
+  - cd ansible-lomp-wp
+
+install:
+  - ansible-playbook travis.yml
+
+script:  
+  - ansible-lint travis.yml
+  
