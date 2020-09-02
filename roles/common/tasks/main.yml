@@ -1,5 +1,0 @@
----
-- name: Install unzip
-  raw: test -e /usr/bin/unzip || apt install -y unzip
-  changed_when: false
-  tags: [ system ]

@@ -1,12 +1,14 @@
 ---
-- include_role:
-    name: common
-
 - name: Check document folder exist
   stat:
     path: "{{ doc_root }}"
   register: doc_folder
   tags: [ wordpress ]
+
+- name: Install unzip
+  apt: name=unzip update_cache=true state=present
+  changed_when: false
+  tags: [ system ]
 
 - name: Download and unpack latest WordPress
   unarchive:
