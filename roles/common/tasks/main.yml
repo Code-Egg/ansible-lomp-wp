@@ -3,3 +3,9 @@
   raw: test -e /usr/bin/unzip || apt install -y unzip
   changed_when: false
   tags: [ system ]
+
+- name: Make sure pymysql is present
+  become: true
+  pip:
+    name: pymysql
+    state: present
