@@ -5,7 +5,7 @@
   tags: [ mysql, system ]
 
 - name: Check if root password is set
-  shell: mysqladmin -u root status
+  command: mysqladmin -u root status
   changed_when: false
   failed_when: false
   register: root_pwd_check

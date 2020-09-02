@@ -17,9 +17,15 @@
   when: doc_folder.stat.exists
   tags: [ wordpress ]
 
+- name: Check that the  docroot index file exists
+  stat:
+    path: "{{ doc_root }}/index.php"
+  register: index_file
+  tags: [ wordpress ]
+
 - name: mv to doc root folder
   shell: mv {{ doc_root }}/wordpress/* {{ doc_root }}/
-  when: doc_folder.stat.exists
+  when: not index_file.stat.exists
   tags: [ wordpress ]
 
 - name: Download and unpack latest LSCache Plugin
