@@ -1,4 +1,7 @@
 ---
+- include_role:
+    name: common
+
 - name: Check document folder exist
   stat:
     path: "{{ doc_root }}"
@@ -10,7 +13,7 @@
     src: https://wordpress.org/latest.tar.gz
     dest: "{{ doc_root }}"
     remote_src: yes
-    mode: 'preserve'
+    mode: '0750'
   when: doc_folder.stat.exists
   tags: [ wordpress ]
 
@@ -24,7 +27,7 @@
     src: https://downloads.wordpress.org/plugin/litespeed-cache.zip
     dest: "{{ doc_root }}/wp-content/plugins/"
     remote_src: yes
-    mode: 'preserve'
+    mode: '0750'
   when: doc_folder.stat.exists
   tags: [ wordpress ]
 
@@ -59,7 +62,7 @@
     recurse: yes
     owner: "{{ owner }}"
     group: "{{ group }}"
-    mode: 'preserve'
+    mode: '0750'
   tags: [ wordpress ]
 
 - name: Set permissions for directories

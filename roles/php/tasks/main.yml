@@ -1,6 +1,10 @@
 ---
 - name: Install LiteSpeed repository
-  command: wget -O - http://rpms.litespeedtech.com/debian/enable_lst_debian_repo.sh | bash
+  shell: |
+    set -o pipefail
+    wget -O - http://rpms.litespeedtech.com/debian/enable_lst_debian_repo.sh | bash
+  args:
+    executable: /bin/bash
   changed_when: false
 
 - name: Install PHP Packages

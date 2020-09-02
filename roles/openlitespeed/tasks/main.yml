@@ -1,4 +1,6 @@
 ---
+- include_role:
+    name: common
 - name: Create document root
   file:
     path: "{{ doc_root }}"
@@ -8,7 +10,11 @@
     mode: '0755'
   tags: [ openlitespeed ]
 - name: Install LiteSpeed repository
-  shell: wget -O - http://rpms.litespeedtech.com/debian/enable_lst_debian_repo.sh | bash
+  shell: |
+    set -o pipefail
+    wget -O - http://rpms.litespeedtech.com/debian/enable_lst_debian_repo.sh | bash
+  args:
+    executable: /bin/bash
   changed_when: false
 
 - name: Install OpenLiteSpeed Package
