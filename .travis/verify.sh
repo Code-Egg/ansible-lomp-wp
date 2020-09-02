@@ -31,3 +31,4 @@ main(){
     verify_lsws
     verify_wordpress
 }
+main
