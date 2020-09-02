@@ -1,7 +1,4 @@
 ---
-- include_role:
-    name: common
-
 - name: Create document root
   file:
     path: "{{ doc_root }}"
