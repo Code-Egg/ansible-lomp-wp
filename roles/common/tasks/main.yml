@@ -7,5 +7,8 @@
 - name: Make sure pymysql is present
   become: true
   pip:
-    name: pymysql
+    name: "{{ item }}"    
     state: present
+  with_items:
+    - pymysql
+    - MySQL-python
