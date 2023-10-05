@@ -1,4 +1,4 @@
-# WordPress on Ubuntu 20.04 LOMP
+# WordPress on Ubuntu 22.04 LOMP 
 [![Build Status](https://travis-ci.com/Code-Egg/ansible-lomp-wp.svg?branch=master)](https://github.com/Code-Egg/ansible-lomp-wp)
 
 This playbook will install a WordPress website on top of a LOMP environment (Linux, OpenLiteSpeed, MySQL and PHP) on an Ubuntu machine. A virtualhost will be created with the options specified in the vars/default.yml variable file.
