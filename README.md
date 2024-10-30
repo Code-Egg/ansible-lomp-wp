@@ -1,4 +1,4 @@
-# WordPress on Ubuntu 22.04 LOMP 
+# WordPress on Ubuntu 24.04 LOMP 
 [![Build Status](https://travis-ci.com/Code-Egg/ansible-lomp-wp.svg?branch=master)](https://github.com/Code-Egg/ansible-lomp-wp)
 
 This playbook will install a WordPress website on top of a LOMP environment (Linux, OpenLiteSpeed, MySQL and PHP) on an Ubuntu machine. A virtualhost will be created with the options specified in the vars/default.yml variable file.
@@ -33,13 +33,13 @@ owner: www-data
 group: www-data
 
 #PHP Settings
-php_version: "74"
-php_dversion: "7.4"
+php_version: "83"
+php_dversion: "8.3"
 php_opt_modules: [ 'lsphp{{ php_version }}-curl', 'lsphp{{ php_version }}-imagick', 'lsphp{{ php_version }}-intl', 'lsphp{{ php_version }}-opcache', 'lsphp{{ php_version }}-memcached', 'lsphp{{ php_version }}-tidy' ]
-php_memory_limit: "128"
+php_memory_limit: "256"
 php_max_execution_time: "60"
-php_upload_max_filesize: "128M"
-php_post_max_size: "128M"
+php_upload_max_filesize: "256M"
+php_post_max_size: "256M"
 
 #MySQL Settings
 mysql_root_password: "mysql_root_password"

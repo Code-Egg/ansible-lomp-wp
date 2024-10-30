@@ -4,8 +4,8 @@ owner: www-data
 group: www-data
 
 #PHP Settings
-php_version: "74"
-php_dversion: "7.4"
+php_version: "83"
+php_dversion: "8.3"
 php_opt_modules: 
   - "curl"
   - "imagick"
@@ -13,10 +13,10 @@ php_opt_modules:
   - "opcache"
   - "memcached"
   - "tidy"
-php_memory_limit: "128"
+php_memory_limit: "256"
 php_max_execution_time: "60"
-php_upload_max_filesize: "128M"
-php_post_max_size: "128M"
+php_upload_max_filesize: "256M"
+php_post_max_size: "256M"
 
 #MySQL Settings
 mysql_root_password: "mysql_root_password"
